@@ -11,6 +11,9 @@ import com.zopim.android.sdk.util.AppInfo;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
+import zendesk.chat.Chat;
+import zendesk.chat.ChatEngine;
+import zendesk.messaging.MessagingActivity;
 
 public class MethodCallHandlerImpl implements MethodCallHandler {
 
@@ -43,6 +46,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler {
   }
 
   private void handleInit(MethodCall call, Result result) {
+    Chat.INSTANCE.init(applicationContext, (String) call.argument("accountKey"));
     ZopimChat.DefaultConfig zopimConfig = ZopimChat.init((String) call.argument("accountKey"));
     if (call.hasArgument("department")) {
       zopimConfig.department((String) call.argument("department"));
@@ -72,10 +76,11 @@ public class MethodCallHandlerImpl implements MethodCallHandler {
     result.success(true);
   }
 
-  private void handleStartChat(MethodCall call, Result result) {
+  private void handleStartChat(MethodCall call, Result result, Context context) {
     if (activity != null) {
-      Intent intent = new Intent(activity, ZopimChatActivity.class);
-      activity.startActivity(intent);
+      MessagingActivity.builder()
+        .withEngines(ChatEngine.engine())
+        .show(context);
     }
 
     result.success(true);
