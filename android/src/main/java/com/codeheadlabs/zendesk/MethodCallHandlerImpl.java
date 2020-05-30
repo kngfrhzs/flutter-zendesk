@@ -76,11 +76,11 @@ public class MethodCallHandlerImpl implements MethodCallHandler {
     result.success(true);
   }
 
-  private void handleStartChat(MethodCall call, Result result, Context context) {
+  private void handleStartChat(MethodCall call, Result result) {
     if (activity != null) {
       MessagingActivity.builder()
         .withEngines(ChatEngine.engine())
-        .show(context);
+        .show(activity);
     }
 
     result.success(true);
