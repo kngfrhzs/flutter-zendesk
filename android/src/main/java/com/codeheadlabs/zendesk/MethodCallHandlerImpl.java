@@ -46,7 +46,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler {
   }
 
   private void handleInit(MethodCall call, Result result) {
-    Chat.INSTANCE.init(applicationContext, (String) call.argument("accountKey"));
+    Chat.INSTANCE.init(activity, (String) call.argument("accountKey"));
     ZopimChat.DefaultConfig zopimConfig = ZopimChat.init((String) call.argument("accountKey"));
     if (call.hasArgument("department")) {
       zopimConfig.department((String) call.argument("department"));
